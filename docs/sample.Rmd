@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+author: "Hao"
+date: "4/19/2018"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(ggrazor)
+library(ggthemes)
+
+dt_fx <- function(cat, week) {
+  mean_1 <- runif(1, -5, 20)
+  se_1 <- runif(1, 5, 10)
+  mean_2 <- runif(1, -3, 18)
+  se_2 <- runif(1, 4, 9)
+  mean_3 <- runif(1, -5, 19)
+  se_3 <- runif(1, 5, 9.5)
+  mean_4 <- runif(1, -4, 21)
+  se_4 <- runif(1, 5.5, 8.5)
+  dt_1 <- data.frame(
+    cat = cat, week = week, grp = "ADT",
+    mean = mean_1, se = se_1, stringsAsFactors = F
+  )
+  dt_2 <- data.frame(
+    cat = cat, week = week, grp = "Non-ADT",
+    mean = mean_2, se = se_2, stringsAsFactors = F
+  )
+  dt_3 <- data.frame(
+    cat = cat, week = week, grp = "ADT 2",
+    mean = mean_3, se = se_3, stringsAsFactors = F
+  )
+  dt_4 <- data.frame(
+    cat = cat, week = week, grp = "Non-ADT 2",
+    mean = mean_4, se = se_4, stringsAsFactors = F
+  )
+  return(rbind(dt_1, dt_2))
+}
+
+dt <- NULL
+for (i in c("Change in PR, ms", "Change in QRS, ms",
+            "Change in QT, ms", "Change in QTc, ms")) {
+  for (j in c(0, 6, 12, 24)) {
+    dt <- rbind(dt, dt_fx(i, j))
+  }
+}
+
+
+ggplot(dt, aes(week, mean, color = grp)) +
+  geom_hline(yintercept = 0, color = "#DDDDDD") +
+  geom_rangeframe(data = data.frame(x = c(0, 24), y = c(-10, 30)), 
+                  aes(x, y), color = "#7F7F7F", show.legend = F) +
+  geom_linerange(aes(ymin = mean - se, ymax = mean + se), 
+                show.legend = F, position = position_dodge(0.5)) +
+  geom_line(show.legend = F, position = position_dodge(0.5)) +
+  geom_point(position = position_dodge(0.5)) +
+  facet_wrap(~cat) + 
+  scale_x_continuous(breaks = c(0, 6, 12, 24)) +
+  scale_color_ifar(discrete = T) +
+  theme_razor() +
+  theme(axis.line = element_blank()) +
+  xlab("Weeks")
+```
