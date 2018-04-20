@@ -31,8 +31,10 @@ scale_fill_ifar <- function(..., discrete = FALSE, direction = 1,
 # library(scales)
 #
 # ifar_cont <- c(
-#   seq_gradient_pal(low = "#2A1809", high = "#ce0630")(seq(0, 1, length.out = 172)),
-#   seq_gradient_pal(low = "#ce0630", high = "#ffbf55")(seq(0, 1, length.out = 84))
+#   seq_gradient_pal(low = "#96CA4E", high = "#6AB6B5")(seq(0, 1, length.out = 172)),
+#   seq_gradient_pal(low = "#6AB6B5", high = "#2D82C9")(seq(0, 1, length.out = 84))
 # )
+#
+# show_col(ifar_cont)
 #
 # writeLines(ifar_cont, "inst/ifar_cont.txt")
